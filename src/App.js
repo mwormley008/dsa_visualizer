@@ -1,16 +1,15 @@
 import React from 'react';
 import Lnode from './components/lnode';
 import Navbar from './components/Navbar';
-
+import Arrow from './components/arrow';
+import LinkedList from './components/linkedlist';
 
 function App() {
 
     return (
         <div className="App">
             <Navbar />
-            <Lnode />
-            <div className='container'>
-            </div>
+            <LinkedList /> 
         </div>
     );
 }

@@ -4,13 +4,13 @@ import Arrow from './arrow';
 
 export default function LinkedList() {
 
-  const [count, setCount] = useState(1)
+  const [count, setCount] = useState(0)
 
   let nodes = []
   for(let i = 0; i<count; i++) {
     nodes.push(
       <> 
-      <Arrow /> <Lnode />
+      <Lnode /><Arrow /> 
       </>
     )
   }
@@ -23,7 +23,6 @@ export default function LinkedList() {
     <div className="container">
       <div className="row justify-content-between">
         <button onClick={handleClick}>Add Node</button>
-        <Lnode /> 
         {nodes}
       </div>
     </div>

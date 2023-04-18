@@ -10,6 +10,7 @@ function App() {
         <div className="App">
             <Navbar />
             <LinkedList /> 
+            <LinkedList /> 
         </div>
     );
 }

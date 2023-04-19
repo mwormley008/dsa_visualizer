@@ -14,7 +14,7 @@
   width: 2px;
   height: 45px;
   background-color: black;
-  transform: rotate(-45deg) translate(5px, 0px);
+  transform: rotate(-45deg) translate(15px, 5px);
   left: 0;
   top: 0;
 }

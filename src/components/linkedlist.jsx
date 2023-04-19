@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Lnode from './lnode';
 import Arrow from './arrow';
-
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function LinkedList(){
   const [nodes, setNodes] = useState([])
@@ -31,17 +31,28 @@ export default function LinkedList(){
 
   return ( 
       <div className="container">
-        <div className="row justify-content-between">
         <button onClick={addNode}>Add Node</button>
         <button onClick={delNode}>Delete Node</button>
         <input type="text" value={inputValue} onChange={handleInputChange}/>
         <button onClick={delIdx}>Delete Index</button>
-      { nodes.map( node => (
-        <> 
-          <Lnode key={node.id} value={node.value} /> 
-          <Arrow />
-        </>))}  
-     </div>
+        <div id="display"> 
+          <AnimatePresence>
+            { nodes.map( node => (
+              <motion.div
+                key={node.id}
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 50 }}
+                transition={{ duration: 0.5 }}
+              >
+                <div style={{ width: '75px' }}>
+                <Lnode key={node.id} value={node.value} style={{ width: '75px' }}/> 
+                </div>
+                <Arrow />
+              </motion.div>
+              ))}  
+          </AnimatePresence>
+          </div>
      </div>
 );
 }

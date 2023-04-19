@@ -19,3 +19,15 @@
   top: 0;
 }
 
+#display{
+  display:flex;
+  flex-wrap: wrap;
+}
+
+.App{
+  width: 100vw;
+}
+
+.arrownode{
+  display:flex;
+}

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function LinkedList(){
   const [nodes, setNodes] = useState([
-    { id: 'null', value: 'X' },
+    { id: 'null', value: 'X'},
   ]);
   const [inputValue, setInputValue] = useState('');
 
@@ -70,7 +70,7 @@ export default function LinkedList(){
           <Lnode
             key={node.id}
             value={node.value}
-            style={{ width: '75px' }}
+            style={{ height: '75px', width: '75px', fontSize: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
             isFirst={index === 0}
             isTail={index === nodes.length - 2}
             isLast={index === nodes.length - 1}
@@ -79,10 +79,10 @@ export default function LinkedList(){
         {index !== nodes.length - 1 && (
           <motion.div
             key={`arrow-${node.id}`}
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: -30, scale: .5 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 50 }}
-            transition={{ duration: 1.5 }}
+            transition={{ duration: 1 }}
           >
             <Arrow />
           </motion.div>

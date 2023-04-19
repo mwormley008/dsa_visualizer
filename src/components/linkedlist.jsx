@@ -11,7 +11,7 @@ export default function LinkedList(){
 
   function addNode(e){
     // Create a new node object
-    const newNode = { id: nodes.length + 1, value: Math.round(Math.random() *10) };
+    const newNode = { id: nodes.length + 1, value: Math.round(Math.random() *9) };
     
     // Insert the new node as the second to last node in the array
     setNodes([...nodes.slice(0, -1), newNode, nodes[nodes.length - 1]]);
@@ -60,7 +60,7 @@ export default function LinkedList(){
                 style={{ display: 'flex', alignItems: 'center' }}
               >
                 <div style={{ width: '75px' }}>
-                <Lnode key={node.id} value={node.value} style={{ width: '75px' }}/> 
+                <Lnode key={node.id} value={node.value} style={{ width: '75px' }} isFirst={index === 0}/> 
                 </div>
                 {index !== nodes.length - 1 && <Arrow />}
               </motion.div>

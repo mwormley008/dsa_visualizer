@@ -48,25 +48,50 @@ export default function LinkedList(){
         <button onClick={clearNodes}>Clear Nodes</button>
         <input type="text" value={inputValue} onChange={handleInputChange}/>
         <button onClick={delIdx}>Delete Index</button>
-        <div id="display"> 
-          <AnimatePresence>
-            { nodes.map((node, index) => (
-              <motion.div
-                key={node.id}
-                initial={{ opacity: 1, x: 0, scale: .5}}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0, x: 50 }}
-                transition={{ duration: 0.5 }}
-                style={{ display: 'flex', alignItems: 'center' }}
-              >
-                <div style={{ width: '75px' }}>
-                <Lnode key={node.id} value={node.value} style={{ width: '75px' }} isFirst={index === 0} isTail={index === nodes.length - 2} isLast={index === nodes.length - 1} /> 
-                </div>
-                {index !== nodes.length - 1 && <Arrow />}
-              </motion.div>
-              ))}  
-          </AnimatePresence>
-          </div>
+        <div id="display">
+  <AnimatePresence>
+    {nodes.map((node, index) => (
+      <motion.div
+        key={node.id}
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: 50 }}
+        transition={{ duration: 0.5 }}
+        style={{ display: 'flex', alignItems: 'center' }}
+      >
+        <motion.div
+          key={`node-${node.id}`}
+          initial={{ opacity: 1, x: 0, scale: .5}}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          exit={{ opacity: 0, x: 50 }}
+          transition={{ duration: 0.5 }}
+          style={{ width: '75px' }}
+        >
+          <Lnode
+            key={node.id}
+            value={node.value}
+            style={{ width: '75px' }}
+            isFirst={index === 0}
+            isTail={index === nodes.length - 2}
+            isLast={index === nodes.length - 1}
+          />
+        </motion.div>
+        {index !== nodes.length - 1 && (
+          <motion.div
+            key={`arrow-${node.id}`}
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 50 }}
+            transition={{ duration: 1.5 }}
+          >
+            <Arrow />
+          </motion.div>
+        )}
+      </motion.div>
+    ))}
+  </AnimatePresence>
+</div>
+
      </div>
 );
 }

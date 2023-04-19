@@ -25,7 +25,7 @@ export default function LinkedList(){
 
   function clearNodes(e){
     setNodes(nodes => {
-      return nodes.filter(node => node.id > nodes.length)
+      return nodes.filter(node => node.id == 'null')
     })
 }
 

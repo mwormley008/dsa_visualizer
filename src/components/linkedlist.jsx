@@ -60,7 +60,7 @@ export default function LinkedList(){
                 style={{ display: 'flex', alignItems: 'center' }}
               >
                 <div style={{ width: '75px' }}>
-                <Lnode key={node.id} value={node.value} style={{ width: '75px' }} isFirst={index === 0}/> 
+                <Lnode key={node.id} value={node.value} style={{ width: '75px' }} isFirst={index === 0} isTail={index === nodes.length - 2} isLast={index === nodes.length - 1} /> 
                 </div>
                 {index !== nodes.length - 1 && <Arrow />}
               </motion.div>

@@ -29,7 +29,7 @@ export default function LinkedList() {
       setNodes(prevNodes => {
         const updatedNodes = [...prevNodes];
         updatedNodes[updatedNodes.length - 2] = { ...updatedNodes[updatedNodes.length - 2], isTail: true };
-        updatedNodes[updatedNodes.length - 1] = { ...updatedNodes[updatedNodes.length - 1], animation: { opacity: 1, y: 0 } };
+        updatedNodes[updatedNodes.length - 1] = { ...updatedNodes[updatedNodes.length - 1], animation: { opacity: 1, y: 0, transition: { delay: 0.1 * nodes.length } } };
         return updatedNodes;
       });
     }, 0);
@@ -64,12 +64,12 @@ export default function LinkedList() {
                   };
                 });
               });
-            }, 500);
+            }, 250);
           }
-        }, 1000);
+        }, 500);
   
         return () => clearInterval(intervalId);
-      }, 500);
+      }, 10);
     }
   }
 
@@ -169,7 +169,7 @@ export default function LinkedList() {
                 initial={node.animation}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.1 * index }}
+                transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.6 * index }}
                 style={{ width: '75px', marginTop: '20px' }}
               >
                 <Lnode
@@ -187,7 +187,7 @@ export default function LinkedList() {
                   initial={{ opacity: 0, x: -30, scale: .5 }}
                   animate={{ opacity: 1, x: 0, scale: 1 }}
                   exit={{ opacity: 0, x: 50 }}
-                  transition={{ type: 'spring', duration: 1, delay: .27 }}
+                  transition={{ type: 'spring', duration: 1, delay: 0.7 * index  }}
                 >
                   <Arrow />
                 </motion.div>

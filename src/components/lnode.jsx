@@ -13,3 +13,4 @@ export default function Lnode( {value, isFirst, isTail, isLast, style} ) {
     </div>
     )
 }
+

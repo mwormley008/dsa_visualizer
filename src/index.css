@@ -1,100 +1,120 @@
 .long-arrow-right{
-    display: block;
-    margin: 30px auto;
-    width: 25px;
-    height: 25px;
-    border-top: 2px solid #000;
-    border-left: 2px solid #000;
-    transform: rotate(135deg);
-  }
+  display: block;
+  margin: 30px auto;
+  width: 25px;
+  height: 25px;
+  border-top: 2px solid #000;
+  border-left: 2px solid #000;
+  transform: rotate(135deg);
+}
 
 .long-arrow-right::after{
-  content: "";
-  display: block;
-  width: 2px;
-  height: 45px;
-  background-color: black;
-  transform: rotate(-45deg) translate(15px, 5px);
-  left: 0;
-  top: 0;
+content: "";
+display: block;
+width: 2px;
+height: 45px;
+background-color: black;
+transform: rotate(-45deg) translate(15px, 5px);
+left: 0;
+top: 0;
 }
 
 #display{
-  display:flex;
-  flex-wrap: wrap;
+display:flex;
+flex-wrap: wrap;
 }
 
 .App{
-  width: 100vw;
+width: 100vw;
 }
 
 .crown-icon {
-  position: relative;
-  float: left;
-  margin-right: 10px; /* add some margin to separate the text from the icon */
+position: relative;
+float: left;
+margin-right: 10px; /* add some margin to separate the text from the icon */
 }
 
 .crown-icon:hover::before {
-  content: "This is the HEAD of the linked list. Can't have a linked list without a head!";
-  position: absolute;
-  top: -30px;
-  left: -50px; /* adjust this value to position the text as needed */
-  z-index: 1;
-  border-radius: 4px;
-  font-size: 12px;
-  background-color: rgba(245, 245, 245, 0.912);
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+content: "This is the HEAD of the linked list. Can't have a linked list without a head!";
+position: absolute;
+top: -30px;
+left: -50px; /* adjust this value to position the text as needed */
+z-index: 1;
+border-radius: 4px;
+font-size: 12px;
+background-color: rgba(245, 245, 245, 0.912);
+box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 .tail-icon {
-  position: relative;
-  float: left;
-  margin-right: 10px; /* add some margin to separate the text from the icon */
+position: relative;
+float: left;
+margin-right: 10px; /* add some margin to separate the text from the icon */
 }
 
 .tail-icon:hover::before {
-  content: "This is the TAIL of the linked list. This is the last entry of the list, and points to 'Null'";
-  position: absolute;
-  top: -30px;
-  left: -50px; /* adjust this value to position the text as needed */
-  z-index: 1;
-  border-radius: 4px;
-  font-size: 12px;
-  background-color: rgba(245, 245, 245, 0.912);
-  padding: 5px;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+content: "This is the TAIL of the linked list. This is the last entry of the list, and points to 'Null'";
+position: absolute;
+top: -30px;
+left: -50px; /* adjust this value to position the text as needed */
+z-index: 1;
+border-radius: 4px;
+font-size: 12px;
+background-color: rgba(245, 245, 245, 0.912);
+padding: 5px;
+box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 .isLast-icon {
-  position: relative;
-  float: left;
-  margin-right: 10px; /* add some margin to separate the text from the icon */
+position: relative;
+float: left;
+margin-right: 10px; /* add some margin to separate the text from the icon */
 }
 
 .isLast-icon:hover::before {
-  content: "This is NULL. This is how you know you've reached the end of your linked list.";
-  position: absolute;
-  top: -30px;
-  left: -50px; /* adjust this value to position the text as needed */
-  z-index: 1;
-  border-radius: 4px;
-  font-size: 12px;
-  background-color: rgba(245, 245, 245, 0.8);
-  padding: 5px;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+content: "This is NULL. This is how you know you've reached the end of your linked list.";
+position: absolute;
+top: -30px;
+left: -50px; /* adjust this value to position the text as needed */
+z-index: 1;
+border-radius: 4px;
+font-size: 12px;
+background-color: rgba(245, 245, 245, 0.8);
+padding: 5px;
+box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 .slnode{
-  position:relative;
+position:relative;
 }
 
 .crown-icon,
 .tail-icon,
 .isLast-icon {
-  position: absolute;
-  top: -25%;
-  left: 5px;
-  font-size: 25px;
-  z-index: 1;
-  cursor: help;
+position: absolute;
+top: -25%;
+left: 5px;
+font-size: 25px;
+z-index: 1;
+cursor: help;
+}
+
+.tail-icon.is-tail {
+  animation-name: move-fox;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in-out;
+}
+
+.tail-icon.is-tail[data-prev-tail-left][data-prev-tail-top] {
+  --prev-tail-left: calc(var(--prev-tail-left) + 50%);
+  --prev-tail-top: calc(var(--prev-tail-top) + 50%);
+}
+
+@keyframes move-fox {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translateX(calc(var(--prev-tail-left) - var(--fox-left))) translateY(calc(var(--prev-tail-top) - var(--fox-top)));
+  }
 }

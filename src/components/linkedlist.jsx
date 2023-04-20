@@ -30,34 +30,61 @@ export default function LinkedList() {
       });
     }, 0);
   }
-  
-  // Trigger the animation after the state update has been completed
-  useEffect(() => {
-    setNodes(nodes => {
-      return nodes.map((node, index) => {
-        return {
-          ...node,
-          animation: {
-            opacity: 1,
-            y: 0,
-            scale: index === nodes.length - 1 ? 1 : 0.8,
-            transition: {
-              type: "spring",
-              stiffness: 260,
-              damping: 20
-            }
-          }
-        };
-      });
-    });
-  }, [nodes]);
-  
 
-  function delNode(e) {
-    setNodes(nodes => {
-      return nodes.filter(node => node.id !== nodes.length);
+  // Highlight all nodes in the linked list
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setNodes(prevNodes => {
+        return prevNodes.map(node => {
+          return {
+            ...node,
+            style: { backgroundColor: 'yellow' }
+          };
+        });
+      });
+
+      setTimeout(() => {
+        setNodes(prevNodes => {
+          return prevNodes.map(node => {
+            return {
+              ...node,
+              style: { backgroundColor: 'white' }
+            };
+          });
+        });
+      }, 500);
+
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  function delNode() {
+    if (nodes.length <= 1) {
+      // There's no node to delete
+      return;
+    }
+  
+    setNodes(prevNodes => {
+      // Remove the last node
+      const updatedNodes = [...prevNodes.slice(0, -2), prevNodes[prevNodes.length - 1]];
+      // Update the tail node animation
+      updatedNodes[updatedNodes.length - 2] = { ...updatedNodes[updatedNodes.length - 2], isTail: true };
+      // Update the animation of the last node
+      updatedNodes[updatedNodes.length - 1] = { ...updatedNodes[updatedNodes.length - 1], animation: { opacity: 0, y: -10 } };
+      return updatedNodes;
     });
+  
+    // Set the animation for the previous tail node
+    setTimeout(() => {
+      setNodes(prevNodes => {
+        const updatedNodes = [...prevNodes];
+        updatedNodes[updatedNodes.length - 2] = { ...updatedNodes[updatedNodes.length - 2], isTail: false };
+        return updatedNodes;
+      });
+    }, 500);
   }
+  
 
   function clearNodes(e) {
     setNodes(nodes => {
@@ -106,7 +133,7 @@ export default function LinkedList() {
                 <Lnode
                   key={node.id}
                   value={node.value}
-                  style={{ height: '75px', width: '75px', fontSize: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                  style={{ height: '75px', width: '75px', fontSize: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: node.isHighlighted ? 'yellow' : 'white' }}
                   isFirst={index === 0}
                   isTail={index === nodes.length - 2}
                   isLast={index === nodes.length - 1}

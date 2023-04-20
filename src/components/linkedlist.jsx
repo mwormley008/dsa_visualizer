@@ -12,13 +12,17 @@ export default function LinkedList() {
   function addNode() {
     const newNode = { id: nodes.length, value: Math.round(Math.random() * 9), animation: { opacity: 0, y: -10 } };
   
+    // Set the animation for all nodes except the last one
     setNodes(prevNodes => {
-      // Update the tail node animation
-      if (prevNodes.length > 1) {
-        prevNodes[prevNodes.length - 2] = { ...prevNodes[prevNodes.length - 2], isTail: false };
-      }
+      const updatedNodes = prevNodes.map(node => {
+        return {
+          ...node,
+          animation: { opacity: 0, y: 0, transition: { delay: 0.1 * (prevNodes.length - node.id) } }
+        };
+      });
       return [...prevNodes.slice(0, -1), newNode, { id: 'null', value: 'X' }];
     });
+    
   
     // Set the animation for the new node and the previous tail node
     setTimeout(() => {
@@ -29,6 +33,44 @@ export default function LinkedList() {
         return updatedNodes;
       });
     }, 0);
+  
+    // Highlight all nodes except the last one in the linked list
+    if (nodes.length > 1) {
+      setTimeout(() => {
+        let i = 0;
+        const intervalId = setInterval(() => {
+          setNodes(prevNodes => {
+            return prevNodes.map((node, idx) => {
+              if (node.id !== 'null' && idx === i-1) {
+                return {
+                  ...node,
+                  isHighlighted: true
+                };
+              }
+              return node;
+            });
+          });
+  
+          i++;
+  
+          if (i === nodes.length - 1) {
+            clearInterval(intervalId);
+            setTimeout(() => {
+              setNodes(prevNodes => {
+                return prevNodes.map(node => {
+                  return {
+                    ...node,
+                    isHighlighted: false
+                  };
+                });
+              });
+            }, 500);
+          }
+        }, 1000);
+  
+        return () => clearInterval(intervalId);
+      }, 500);
+    }
   }
 
   // Highlight all nodes in the linked list
@@ -52,7 +94,7 @@ export default function LinkedList() {
             };
           });
         });
-      }, 500);
+      }, 200);
 
     }, 1000);
 

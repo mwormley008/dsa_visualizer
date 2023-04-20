@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Lnode from './lnode';
 import Arrow from './arrow';
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,14 +8,71 @@ export default function LinkedList(){
     { id: 'null', value: 'X'},
   ]);
   const [inputValue, setInputValue] = useState('');
+  const [lastAddedIndex, setLastAddedIndex] = useState(-1);
 
-  function addNode(e){
-    // Create a new node object
-    const newNode = { id: nodes.length + 1, value: Math.round(Math.random() *9) };
-    
-    // Insert the new node as the second to last node in the array
-    setNodes([...nodes.slice(0, -1), newNode, nodes[nodes.length - 1]]);
-  };
+
+  function addNode(e) {
+    const newNode = { id: nodes.length + 1, value: Math.round(Math.random() * 9) };
+  
+    // Create a new animation object for the new node
+    const newNodeAnimation = {
+      opacity: 0,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 260,
+        damping: 20
+      }
+    };
+  
+    setNodes((prevNodes) => {
+      // Update the animation properties of all existing nodes
+      const updatedNodes = prevNodes.map((prevNode, index) => {
+        return {
+          ...prevNode,
+          animation: {
+            opacity: 1,
+            y: 20 * Math.sin(index - lastAddedIndex),
+            transition: {
+              type: "spring",
+              stiffness: 260,
+              damping: 20
+            }
+          }
+        };
+      });
+  
+      // Add the new node to the end of the list and update its animation
+      updatedNodes.push({
+        ...newNode,
+        animation: newNodeAnimation
+      });
+  
+      // Update the last added index and return the updated list of nodes
+      setLastAddedIndex(prevIndex => prevIndex + 1);
+      return updatedNodes;
+    });
+  }
+  
+  // Trigger the animation after the state update has been completed
+  useEffect(() => {
+    setNodes((nodes) => {
+      return nodes.map((node) => {
+        return {
+          ...node,
+          animation: {
+            opacity: 1,
+            y: 0,
+            transition: {
+              type: "spring",
+              stiffness: 260,
+              damping: 20
+            }
+          }
+        }
+      });
+    });
+  }, [nodes]);
   
   function delNode(e){
       setNodes(nodes => {
@@ -56,15 +113,15 @@ export default function LinkedList(){
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: 50 }}
-        transition={{ duration: 0.5 }}
+        transition={{ type: 'spring', duration: 0.5 }}
         style={{ display: 'flex', alignItems: 'center' }}
       >
         <motion.div
           key={`node-${node.id}`}
           initial={{ opacity: 1, x: 0, scale: .5}}
-          animate={{ opacity: 1, x: 0, scale: 1 }}
+          animate={{ opacity: 1, x: 0, scale: 1, ...node.animation }}
           exit={{ opacity: 0, x: 50 }}
-          transition={{ duration: 0.5 }}
+          transition={{ type: 'spring', duration: 0.9 }}
           style={{ width: '75px' }}
         >
           <Lnode
@@ -80,9 +137,9 @@ export default function LinkedList(){
           <motion.div
             key={`arrow-${node.id}`}
             initial={{ opacity: 0, x: -30, scale: .5 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
+            animate={{ opacity: 1, x: 0, scale: 1, ...node.animation }}
             exit={{ opacity: 0, x: 50 }}
-            transition={{ duration: 1 }}
+            transition={{ type: 'spring', duration: 1, delay: .27 }}
           >
             <Arrow />
           </motion.div>

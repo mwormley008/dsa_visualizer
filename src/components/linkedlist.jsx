@@ -111,7 +111,7 @@ export default function LinkedList() {
       <button onClick={clearNodes}>Clear Nodes</button>
       <input type="text" value={inputValue} onChange={handleInputChange} />
       <button onClick={delIdx}>Delete Index</button>
-      <div id="display">
+      <div id="display" style={{ marginTop: '10px' }}>
         <AnimatePresence>
           {nodes.map((node, index) => (
             <motion.div
@@ -128,7 +128,7 @@ export default function LinkedList() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.1 * index }}
-                style={{ width: '75px' }}
+                style={{ width: '75px', marginTop: '20px' }}
               >
                 <Lnode
                   key={node.id}

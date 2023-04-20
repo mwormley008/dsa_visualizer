@@ -80,7 +80,7 @@ export default function LinkedList() {
         return prevNodes.map(node => {
           return {
             ...node,
-            style: { backgroundColor: 'yellow' }
+            style: { backgroundColor: 'green' }
           };
         });
       });
@@ -175,7 +175,14 @@ export default function LinkedList() {
                 <Lnode
                   key={node.id}
                   value={node.value}
-                  style={{ height: '75px', width: '75px', fontSize: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: node.isHighlighted ? 'yellow' : 'white' }}
+                  style={{ height: '75px', 
+                  width: '75px', 
+                  fontSize: '16px', 
+                  display: 'flex', 
+                  justifyContent: 'center', 
+                  alignItems: 'center', 
+                  backgroundColor: node.isHighlighted ? `rgba(255, 0, 0, ${ node.id/nodes.length})` : 'white',
+                   }}
                   isFirst={index === 0}
                   isTail={index === nodes.length - 2}
                   isLast={index === nodes.length - 1}

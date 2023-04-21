@@ -66,7 +66,7 @@ export default function LinkedList() {
               });
             }, 250);
           }
-        }, 500);
+        }, 200);
   
         return () => clearInterval(intervalId);
       }, 10);
@@ -94,9 +94,9 @@ export default function LinkedList() {
             };
           });
         });
-      }, 200);
+      }, 100);
 
-    }, 1000);
+    }, 500);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -107,25 +107,82 @@ export default function LinkedList() {
       return;
     }
   
-    setNodes(prevNodes => {
-      // Remove the last node
-      const updatedNodes = [...prevNodes.slice(0, -2), prevNodes[prevNodes.length - 1]];
-      // Update the tail node animation
-      updatedNodes[updatedNodes.length - 2] = { ...updatedNodes[updatedNodes.length - 2], isTail: true };
-      // Update the animation of the last node
-      updatedNodes[updatedNodes.length - 1] = { ...updatedNodes[updatedNodes.length - 1], animation: { opacity: 0, y: -10 } };
-      return updatedNodes;
-    });
+    // Highlight all nodes except the last one in the linked list
+    if (nodes.length > 2) {
+      let i = 0;
+      const intervalId = setInterval(() => {
+        setNodes(prevNodes => {
+          return prevNodes.map((node, idx) => {
+            if (node.id !== 'null' && idx === i-1) {
+              return {
+                ...node,
+                isHighlighted: true
+              };
+            }
+            return node;
+          });
+        });
   
-    // Set the animation for the previous tail node
-    setTimeout(() => {
+        i++;
+  
+        if (i === nodes.length - 2) {
+          clearInterval(intervalId);
+          setTimeout(() => {
+            setNodes(prevNodes => {
+              return prevNodes.map(node => {
+                return {
+                  ...node,
+                  isHighlighted: false
+                };
+              });
+            });
+          }, 250);
+  
+          // Remove the second to last node
+          setTimeout(() => {
+            setNodes(prevNodes => {
+              const updatedNodes = [...prevNodes.slice(0, -2), prevNodes[prevNodes.length - 1]];
+              // Update the tail node animation
+              updatedNodes[updatedNodes.length - 2] = { ...updatedNodes[updatedNodes.length - 2], isTail: true };
+              // Update the animation of the last node
+              updatedNodes[updatedNodes.length - 1] = { ...updatedNodes[updatedNodes.length - 1], animation: { opacity: 0, y: -10 } };
+              return updatedNodes;
+            });
+          }, 500);
+  
+          // Set the animation for the new node and the previous tail node
+          setTimeout(() => {
+            setNodes(prevNodes => {
+              const updatedNodes = [...prevNodes];
+              updatedNodes[updatedNodes.length - 2] = { ...updatedNodes[updatedNodes.length - 2], isTail: true };
+              updatedNodes[updatedNodes.length - 1] = { ...updatedNodes[updatedNodes.length - 1], animation: { opacity: 1, y: 0, transition: { delay: 0.1 * nodes.length } } };
+              return updatedNodes;
+            });
+          }, 1000);
+        }
+      }, 200);
+    } else {
+      // Remove the second to last node
       setNodes(prevNodes => {
-        const updatedNodes = [...prevNodes];
-        updatedNodes[updatedNodes.length - 2] = { ...updatedNodes[updatedNodes.length - 2], isTail: false };
+        const updatedNodes = [...prevNodes.slice(0, -2), prevNodes[prevNodes.length - 1]];
+        // Update the tail node animation
+        updatedNodes[updatedNodes.length - 2] = { ...updatedNodes[updatedNodes.length - 2], isTail: true };
+        // Update the animation of the last node
+        updatedNodes[updatedNodes.length - 1] = { ...updatedNodes[updatedNodes.length - 1], animation: { opacity: 0, y: -10, delay: 50} };
         return updatedNodes;
       });
-    }, 500);
-  }
+  
+      // Set the animation for the new node and the previous tail node
+      setTimeout(() => {
+        setNodes(prevNodes => {
+          const updatedNodes = [...prevNodes];
+          const secondToLastNodeIndex = updatedNodes.length - 3;
+          updatedNodes.splice(secondToLastNodeIndex, 1);
+          updatedNodes[updatedNodes.length - 2] = { ...updatedNodes[updatedNodes.length - 2], isTail: false };
+          return updatedNodes;
+        });
+      }, 300);
+    }}        
   
 
   function clearNodes(e) {
@@ -153,7 +210,7 @@ export default function LinkedList() {
       <button onClick={clearNodes}>Clear Nodes</button>
       <input type="text" value={inputValue} onChange={handleInputChange} />
       <button onClick={delIdx}>Delete Index</button>
-      <div id="display" style={{ marginTop: '10px' }}>
+      <div id="display" style={{ marginTop: '10px', marginBottom: '10px' }}>
         <AnimatePresence>
           {nodes.map((node, index) => (
             <motion.div
@@ -161,7 +218,7 @@ export default function LinkedList() {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 50 }}
-              transition={{ type: 'spring', duration: 0.5 }}
+              transition={{ type: 'circOut', duration: 0.5 }}
               style={{ display: 'flex', alignItems: 'center' }}
             >
               <motion.div
@@ -169,7 +226,7 @@ export default function LinkedList() {
                 initial={node.animation}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.6 * index }}
+                transition={{ type: 'circOut', stiffness: 260, damping: 20, delay: 0.25 * index }}
                 style={{ width: '75px', marginTop: '20px' }}
               >
                 <Lnode
@@ -194,7 +251,8 @@ export default function LinkedList() {
                   initial={{ opacity: 0, x: -30, scale: .5 }}
                   animate={{ opacity: 1, x: 0, scale: 1 }}
                   exit={{ opacity: 0, x: 50 }}
-                  transition={{ type: 'spring', duration: 1, delay: 0.7 * index  }}
+                  transition={{ type: 'spring', duration: 1, delay: 0.35 * index  }}
+                  style={{marginTop: '10px'}}
                 >
                   <Arrow />
                 </motion.div>

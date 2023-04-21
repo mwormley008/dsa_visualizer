@@ -29,7 +29,7 @@ export default function LinkedList() {
       setNodes(prevNodes => {
         const updatedNodes = [...prevNodes];
         updatedNodes[updatedNodes.length - 2] = { ...updatedNodes[updatedNodes.length - 2], isTail: true };
-        updatedNodes[updatedNodes.length - 1] = { ...updatedNodes[updatedNodes.length - 1], animation: { opacity: 1, y: 0, transition: { delay: 0.1 * nodes.length } } };
+        updatedNodes[updatedNodes.length - 1] = { ...updatedNodes[updatedNodes.length - 1], animation: { opacity: 1, y: 0, transition: .2 } };
         return updatedNodes;
       });
     }, 0);
@@ -94,9 +94,9 @@ export default function LinkedList() {
             };
           });
         });
-      }, 100);
+      }, 50);
 
-    }, 500);
+    }, 300);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -136,7 +136,7 @@ export default function LinkedList() {
                 };
               });
             });
-          }, 250);
+          }, 150);
   
           // Remove the second to last node
           setTimeout(() => {
@@ -148,19 +148,19 @@ export default function LinkedList() {
               updatedNodes[updatedNodes.length - 1] = { ...updatedNodes[updatedNodes.length - 1], animation: { opacity: 0, y: -10 } };
               return updatedNodes;
             });
-          }, 500);
+          }, 200);
   
           // Set the animation for the new node and the previous tail node
           setTimeout(() => {
             setNodes(prevNodes => {
               const updatedNodes = [...prevNodes];
               updatedNodes[updatedNodes.length - 2] = { ...updatedNodes[updatedNodes.length - 2], isTail: true };
-              updatedNodes[updatedNodes.length - 1] = { ...updatedNodes[updatedNodes.length - 1], animation: { opacity: 1, y: 0, transition: { delay: 0.1 * nodes.length } } };
+              updatedNodes[updatedNodes.length - 1] = { ...updatedNodes[updatedNodes.length - 1], animation: { opacity: 1, y: 0, transition: { delay: 0.2 } } };
               return updatedNodes;
             });
-          }, 1000);
+          }, 200);
         }
-      }, 200);
+      }, 100);
     } else {
       // Remove the second to last node
       setNodes(prevNodes => {
@@ -168,7 +168,7 @@ export default function LinkedList() {
         // Update the tail node animation
         updatedNodes[updatedNodes.length - 2] = { ...updatedNodes[updatedNodes.length - 2], isTail: true };
         // Update the animation of the last node
-        updatedNodes[updatedNodes.length - 1] = { ...updatedNodes[updatedNodes.length - 1], animation: { opacity: 0, y: -10, delay: 50} };
+        updatedNodes[updatedNodes.length - 1] = { ...updatedNodes[updatedNodes.length - 1], animation: { opacity: 0, y: -10} };
         return updatedNodes;
       });
   
@@ -181,7 +181,7 @@ export default function LinkedList() {
           updatedNodes[updatedNodes.length - 2] = { ...updatedNodes[updatedNodes.length - 2], isTail: false };
           return updatedNodes;
         });
-      }, 300);
+      }, 0);
     }}        
   
 
@@ -225,7 +225,7 @@ export default function LinkedList() {
                 key={`node-${node.id}`}
                 initial={node.animation}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
+                exit={{ opacity: 0, y: -10, delay: 0.25 * index }}
                 transition={{ type: 'circOut', stiffness: 260, damping: 20, delay: 0.25 * index }}
                 style={{ width: '75px', marginTop: '20px' }}
               >
